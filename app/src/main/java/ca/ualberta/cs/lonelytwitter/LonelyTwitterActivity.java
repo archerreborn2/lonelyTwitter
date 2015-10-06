@@ -28,7 +28,7 @@ import com.google.gson.reflect.TypeToken;
 
 public class LonelyTwitterActivity extends Activity implements MyObserver, MyObservable {
 
-	private static final String FILENAME = "file.sav";//method
+	private static final String FILENAME = "file.sav";//model
 	private EditText bodyText;//view
 	private ListView oldTweetsList;//controller
 	private ArrayList<Tweet> tweets;//controller
@@ -51,7 +51,7 @@ public class LonelyTwitterActivity extends Activity implements MyObserver, MyObs
 				setResult(RESULT_OK);//view
 				String text = bodyText.getText().toString();//controller
 				tweets.add(new NormalTweet(text));//controller
-				saveInFile();//method
+				saveInFile();//model
 				adapter.notifyDataSetChanged();//view
 
 				//saveInFile(text, new Date(System.currentTimeMillis()));
@@ -65,20 +65,20 @@ public class LonelyTwitterActivity extends Activity implements MyObserver, MyObs
 	protected void onStart() {
 		// TODO Auto-generated method stub
 		super.onStart();
-		loadFromFile();//method
+		loadFromFile();//model
 		adapter = new ArrayAdapter<Tweet>(this, R.layout.list_item, tweets);//view
 		oldTweetsList.setAdapter(adapter);//view
 	}
 
-	private void loadFromFile() {//method
+	private void loadFromFile() {//model
 		//ArrayList<String> tweets = new ArrayList<String>();
 		try {
-			FileInputStream fis = openFileInput(FILENAME);//method
-			BufferedReader in = new BufferedReader(new InputStreamReader(fis));//method
+			FileInputStream fis = openFileInput(FILENAME);//model
+			BufferedReader in = new BufferedReader(new InputStreamReader(fis));//model
 			Gson gson = new Gson();//metod
 			//Following line based on https://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/com/google/gson/Gson.html
-			Type listType = new TypeToken<ArrayList<NormalTweet>>() {}.getType();//method
-			tweets = gson.fromJson(in,listType);//method
+			Type listType = new TypeToken<ArrayList<NormalTweet>>() {}.getType();//model
+			tweets = gson.fromJson(in,listType);//model
 
 			/*String line = in.readLine();
 			while (line != null) {
@@ -87,33 +87,33 @@ public class LonelyTwitterActivity extends Activity implements MyObserver, MyObs
 			old non Gson method to read strings from file
 			}*/
 
-		} catch (FileNotFoundException e) {//method
+		} catch (FileNotFoundException e) {//model
 			// TODO Auto-generated catch block
-			tweets = new ArrayList<Tweet>();//method
-		} catch (IOException e) {//method
+			tweets = new ArrayList<Tweet>();//model
+		} catch (IOException e) {//model
 			// TODO Auto-generated catch block
-			throw new RuntimeException(e);//method
+			throw new RuntimeException(e);//model
 		}
 		//return tweets.toArray(new String[tweets.size()]);
 	}
 	
-	private void saveInFile() {//method
-		try {//method
-			FileOutputStream fos = openFileOutput(FILENAME,//method
+	private void saveInFile() {//model
+		try {//model
+			FileOutputStream fos = openFileOutput(FILENAME,//model
 					0);
-			OutputStreamWriter writer = new OutputStreamWriter(fos);//method
-			Gson gson = new Gson();//method
-			gson.toJson(tweets, writer);//method
-			writer.flush();//method
+			OutputStreamWriter writer = new OutputStreamWriter(fos);//model
+			Gson gson = new Gson();//model
+			gson.toJson(tweets, writer);//model
+			writer.flush();//model
 			//fos.write(new String(date.toString() + " | " + text)
 			//		.getBytes());
-			fos.close();//method
-		} catch (FileNotFoundException e) {//method
+			fos.close();//model
+		} catch (FileNotFoundException e) {//model
 			// TODO Auto-generated catch block
-			throw new RuntimeException(e);//method
-		} catch (IOException e) {//method
+			throw new RuntimeException(e);//model
+		} catch (IOException e) {//model
 			// TODO Auto-generated catch block
-			throw new RuntimeException(e);//method
+			throw new RuntimeException(e);//model
 		}
 	}
 
@@ -121,7 +121,7 @@ public class LonelyTwitterActivity extends Activity implements MyObserver, MyObs
 		adapter.notifyDataSetChanged();//view
 	}
 
-	public void addObserver(MyObserver observer){
+	public void addObserver(MyObserver observer){//control
 
 	}
 
