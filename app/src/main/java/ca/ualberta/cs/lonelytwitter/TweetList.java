@@ -2,12 +2,21 @@ package ca.ualberta.cs.lonelytwitter;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * Created by dren on 9/28/15.
  */
-public class TweetList {
+public class TweetList implements MyObservable{
     private ArrayList<Tweet> tweets = new ArrayList<Tweet>();
+    private volatile ArrayList<MyObserver> observers = new ArrayList<MyObserver>();
+
+    private void notifyAllObservers(){
+        for (MyObserver observer : observers){
+            observer.myNotify(this);
+        }
+    }
 
     public void setUp(){
 
@@ -18,7 +27,7 @@ public class TweetList {
             throw new IllegalArgumentException();
         }
         tweets.add(tweet);
-
+        notifyAllObservers();
     }
 
     public void delete(Tweet tweet){
@@ -27,7 +36,6 @@ public class TweetList {
     }
 
     public Boolean contains(Tweet tweet){
-
        return tweets.contains(tweet);
     }
 
@@ -59,6 +67,15 @@ public class TweetList {
         tweets = sorted;
 
         return sorted;
+    }
+
+    public void addObserver(MyObserver observer){
+
+        observers.add(observer);
+    }
+
+    public void myNotify(MyObservable observable){
+        notifyAllObservers();
     }
 
 
